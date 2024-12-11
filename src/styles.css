@@ -1,0 +1,29 @@
+body {
+    display: block;
+    align-items: left;
+    justify-content: center;
+    height: 100vh;
+    margin: 10;
+  }
+  
+  input {
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 40px;
+  }
+
+  button {
+    appearance: none;
+    border: 0;
+    border-radius: 5px;
+    background: #4676D7;
+    color: #fff;
+    padding: 8px 16px;
+    font-size: 16px;
+  }
+
+  li {
+    margin: 10px;
+    padding: 10px;
+    font-size: 16px,
+  }
