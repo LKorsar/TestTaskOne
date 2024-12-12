@@ -13,6 +13,7 @@ const handleAppState = (elements, state) => {
 
 const renderTimers = (elements, state) => {
   const { timers } = elements;
+  timers.textContent = '';
   if (state.timersList.length === 0) {
     timers.textContent = '';
   }
@@ -20,9 +21,10 @@ const renderTimers = (elements, state) => {
     const liElement = document.createElement('li');
     liElement.setAttribute('id', timer.id);
     const spanElement = document.createElement('span');
-    spanElement.textContent = timer.timer;
+    spanElement.innerHTML = timer.timeLeft;
     liElement.append(spanElement);
     const btnElement = document.createElement('button');
+    btnElement.setAttribute('data-type', 'closing');
     btnElement.textContent = 'Clear timer';
     liElement.append(btnElement);
     timers.append(liElement);

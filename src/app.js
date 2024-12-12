@@ -2,15 +2,22 @@ import _ from 'lodash';
 import './styles.css';
 import view from './view.js';
 
-const setTimer = (time, state) => {
+const setTimer = (time, state, id) => {
+  const delay = time * 1000;
+  const startTime = Date.now() + delay;
   const timer = setInterval(() => {
-    if (time > 0) {
-      time -= 1;
+    let currentDelay = Math.round(((startTime - Date.now())) / 1000);
+    console.log(currentDelay);
+    const timerToChange = state.timersList.filter((t) => t.id === id);
+    timerToChange.timeLeft = currentDelay;
+    const indexOfTimer = (state.timersList).indexOf(timerToChange);
+    state.timersList.splice(indexOfTimer, 1, timerToChange);
+    if (currentDelay === 0) {
+      clearInterval(timer);
+      state.timersList.splice(indexOfTimer, 1);
     }
-    clearInterval(timer);
   }, 1000);
-  state.timersList.push({id: _.uniqueId(), timeLimit: time, timer: timer});
-  return timer;
+  
 };
 
 const app = () => {
@@ -38,17 +45,17 @@ const app = () => {
   elements.button.addEventListener('click', () => {
     watchedState.appState.isFilling = false;
     const time = watchedState.inputValue;
-    setTimer(time, watchedState);
+    const timerId = _.uniqueId();
+    watchedState.timersList.push({ id: timerId, timeLimit: time, timeLeft: time });
+    setTimer(time, watchedState, timerId);
     watchedState.inputValue = '';
     watchedState.appState.isFilling = true;
-    console.log(watchedState);
   });
 
   const timerClearBtns = document.querySelectorAll('li');
   timerClearBtns.forEach((btn) => {
     btn.addEventListener('click', (e) => {
       const clickedTimer= e.target.value;
-      console.log(clickedTimer);
       const clickedTimerId = clickedTimer.id;
       watchedState.timersList.filter((t) => t.id !== clickedTimerId);
     });
